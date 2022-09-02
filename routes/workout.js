@@ -4,7 +4,6 @@ const wrapAsync = require('../utils/WrapAsync');
 
 router.post("/", wrapAsync(async (req, res, next) => {
   let username = "";
-  console.log('adding workout');
   if (req.user.provider === "github") {
     username = "github" + req.user.id;
   }
@@ -12,11 +11,11 @@ router.post("/", wrapAsync(async (req, res, next) => {
     username = "google" + req.user.id;
   }
   let date = new Date();
-  const {lifts, workoutName} = req.body;
-  console.log(lifts, workoutName)
+  const {tags, workoutName} = req.body;
+  console.log(tags, workoutName)
   const newWorkout = new Workout({
     name: workoutName,
-    lifts: lifts.map(lift => {return {liftId: lift._id, reps: lift.reps, sets: lift.sets}}),
+    tags: tags.map(tag => tag),
     whoCreated: username,
     whenCreated: date,
   });
@@ -25,8 +24,27 @@ router.post("/", wrapAsync(async (req, res, next) => {
   res.send(workout);
 }));
 
+
+router.get("/:id", wrapAsync(async (req, res, next) => {
+  const {id} = req.params;
+  console.log(id);
+  const workouts = await Workout.findById(id);
+  res.send(workouts);
+}))
+
+router.get("/", wrapAsync(async (req, res, next) => {
+  const workouts = await Workout.find();
+  res.send(workouts);
+}))
+
+router.delete('/:id', wrapAsync(async (req, res, next) => {
+  const {id} = req.params;
+  const deletedWorkout = await Workout.findByIdAndDelete(id);
+  res.send(deletedWorkout);
+}))
+
 router.post("/:id/lift", wrapAsync(async (req, res, next) => {
-  
+
 }))
 
 module.exports = router;
