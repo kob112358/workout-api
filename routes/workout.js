@@ -1,51 +1,85 @@
 const router = require("express").Router();
 const Workout = require("../models/Workout");
-const wrapAsync = require('../utils/WrapAsync');
+const wrapAsync = require("../utils/WrapAsync");
 
-router.post("/", wrapAsync(async (req, res, next) => {
-  let username = "";
-  if (req.user.provider === "github") {
-    username = "github" + req.user.id;
-  }
-  if (req.user.provider === "google") {
-    username = "google" + req.user.id;
-  }
-  let date = new Date();
-  const {tags, workoutName} = req.body;
-  console.log(tags, workoutName)
-  const newWorkout = new Workout({
-    name: workoutName,
-    tags: tags.map(tag => tag),
-    whoCreated: username,
-    whenCreated: date,
-  });
-  const workout = await newWorkout.save();
-  console.log(workout)
-  res.send(workout);
-}));
+router.post(
+  "/",
+  wrapAsync(async (req, res, next) => {
+    let username = "";
+    if (req.user.provider === "github") {
+      username = "github" + req.user.id;
+    }
+    if (req.user.provider === "google") {
+      username = "google" + req.user.id;
+    }
+    let date = new Date();
+    const { tags, workoutName } = req.body;
+    const newWorkout = new Workout({
+      name: workoutName,
+      tags: tags.map((tag) => tag),
+      whoCreated: username,
+      whenCreated: date,
+    });
+    const workout = await newWorkout.save();
+    console.log(workout);
+    res.send(workout);
+  })
+);
 
+router.put(
+  "/:id",
+  wrapAsync(async (req, res) => {
+    const { name, tags, _id } = req.body;
+    const whenUpdated = new Date();
+    console.log(req.body);
+    const updatedWorkout = new Workout({
+      name: name,
+      tags: tags,
+      whenUpdated: whenUpdated,
+    });
+    const workout = await Workout.findByIdAndUpdate(
+      _id,
+      req.body,
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
+    res.json(workout);
+  })
+);
 
-router.get("/:id", wrapAsync(async (req, res, next) => {
-  const {id} = req.params;
-  console.log(id);
-  const workouts = await Workout.findById(id);
-  res.send(workouts);
-}))
+router.get(
+  "/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    console.log(id);
+    const workouts = await Workout.findById(id);
+    res.send(workouts);
+  })
+);
 
-router.get("/", wrapAsync(async (req, res, next) => {
-  const workouts = await Workout.find();
-  res.send(workouts);
-}))
+router.get(
+  "/",
+  wrapAsync(async (req, res, next) => {
+    const workouts = await Workout.find();
+    res.send(workouts);
+  })
+);
 
-router.delete('/:id', wrapAsync(async (req, res, next) => {
-  const {id} = req.params;
-  const deletedWorkout = await Workout.findByIdAndDelete(id);
-  res.send(deletedWorkout);
-}))
+router.delete(
+  "/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const deletedWorkout = await Workout.findByIdAndDelete(id);
+    res.send(deletedWorkout);
+  })
+);
 
-router.post("/:id/lift", wrapAsync(async (req, res, next) => {
-
-}))
+router.post(
+  "/:id/lift",
+  wrapAsync(async (req, res, next) => {})
+);
 
 module.exports = router;
 //CREATE

@@ -30,7 +30,6 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }));
 
 router.put("/:id", wrapAsync(async (req, res) => {
-  const { id } = req.params;
   const product = await Lift.findByIdAndUpdate(req.body.id, req.body, {
     runValidators: true,
     new: true,
