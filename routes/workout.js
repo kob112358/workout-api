@@ -78,7 +78,10 @@ router.delete(
 
 router.post(
   "/:id/lift",
-  wrapAsync(async (req, res, next) => {})
+  wrapAsync(async (req, res, next) => {
+    const {liftId, name, reps, sets} = req.body;
+    console.log(liftId, name, reps, sets);
+  })
 );
 
 module.exports = router;

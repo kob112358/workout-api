@@ -10,6 +10,10 @@ const workoutLiftSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Lift'
     },
+    liftName: {
+        type: String,
+        required: [true, 'Must have a workout name included']
+    },
     sets: {
         type: Number,
         required: [true, 'Workout mapping must have a number of sets']
