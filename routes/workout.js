@@ -9,20 +9,22 @@ router.post(
   wrapAsync(async (req, res, next) => {
     let username = "";
     if (req.user.provider === "github") {
-      username = "github" + req.user.id;
+      username = req.user.username;
     }
     if (req.user.provider === "google") {
-      username = "google" + req.user.id;
+      username = req.user.displayName;
     }
     let date = new Date();
-    const { tags, workoutName } = req.body;
+    const { tags, notes, workoutName } = req.body;
     const newWorkout = new Workout({
       name: workoutName,
       tags: tags.map((tag) => tag),
       whoCreated: username,
       whenCreated: date,
+      notes: notes
     });
     const workout = await newWorkout.save();
+    console.log(workout);
     res.send(workout);
   })
 );

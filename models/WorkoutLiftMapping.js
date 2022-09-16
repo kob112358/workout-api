@@ -8,7 +8,8 @@ const workoutLiftSchema = new mongoose.Schema({
     },
     lift: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lift'
+        ref: 'Lift',
+        required: [true, 'Workout/lift mapping must have a lift associated']
     },
     liftName: {
         type: String,
