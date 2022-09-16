@@ -4,19 +4,24 @@ const workoutLiftSchema = new mongoose.Schema({
     workout: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workout',
-        required: [true, 'Mapping must have a workout associated']
+        required: [true, 'Workout/lift mapping must have a workout associated']
     },
     lift: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lift'
+        ref: 'Lift',
+        required: [true, 'Workout/lift mapping must have a lift associated']
+    },
+    liftName: {
+        type: String,
+        required: [true, 'Workout/lift mapping must have a workout name included']
     },
     sets: {
         type: Number,
-        required: [true, 'Workout mapping must have a number of sets']
+        required: [true, 'Workout/lift mapping must have a number of sets']
     },
     reps: {
         type: Number,
-        required: [true, 'Workout mapping must have a number of reps']
+        required: [true, 'Workout/lift mapping must have a number of reps']
     }
 })
 

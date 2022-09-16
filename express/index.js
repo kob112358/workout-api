@@ -5,6 +5,7 @@ const passport = require("passport");
 const authRoute = require("../routes/auth.js");
 const liftRoute = require("../routes/lift.js");
 const workoutRoute = require("../routes/workout.js");
+const routineRoute = require("../routes/routine.js");
 const passportSetup = require("./passport.js");
 const app = express();
 const envVar = require("./env.js");
@@ -49,6 +50,7 @@ app.listen(envVar.PORT, () => {
 app.use("/auth", authRoute);
 app.use("/lift", liftRoute);
 app.use("/workout", workoutRoute);
+app.use("/routine", routineRoute);
 
 app.use((err, req, res, next) => {
   const {status = 500, message = 'You encountered an error'} = err;
