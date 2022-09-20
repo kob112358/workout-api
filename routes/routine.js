@@ -56,4 +56,35 @@ router.delete("/:id", wrapAsync(async (req, res, next) => {
     res.send(routine);
 }))
 
+router.post(
+  "/:id/workout",
+  wrapAsync(async (req, res, next) => {
+    const { routineId, workoutId, name } = req.body;
+    const routineWorkout = new RoutineWorkout({
+      routine: routineId,
+      workout: workoutId,
+      workoutName: name
+    });
+    const newRoutineWorkout = await routineWorkout.save();
+    console.log(newRoutineWorkout);
+    res.json(newRoutineWorkout);
+  })
+);
+router.get(
+  "/:id/workout",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const routineWorkouts = await RoutineWorkout.find({ routine: id });
+    res.send(routineWorkouts);
+  })
+);
+router.delete(
+  "/:id/workout",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.body;
+    const routineWorkoutToDelete = await RoutineWorkout.findByIdAndDelete(id);
+    res.send(routineWorkoutToDelete);
+  })
+);
+
 module.exports = router;
