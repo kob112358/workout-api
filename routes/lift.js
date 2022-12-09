@@ -44,7 +44,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
 }));
 
 router.post("/", wrapAsync(async (req, res) => {
-    const { name, creator, notes, primary, secondary } = req.body;
+    const { name, creator, notes, primary, secondary, isTimed } = req.body;
     const created = new Date();
     let newUrl = "/lift/";
     const newLift = new Lift({
@@ -52,6 +52,7 @@ router.post("/", wrapAsync(async (req, res) => {
       notes: notes,
       primary: primary,
       secondary: secondary,
+      isTimed: isTimed,
       whoCreated: creator,
       whenCreated: created,
     });

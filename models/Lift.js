@@ -9,6 +9,7 @@ const liftSchema = new mongoose.Schema({
     },
     url: String,
     notes: String,
+    isTimed: Boolean,
     primary: [{
       type: String,
       enum: MUSCLE_GROUPS

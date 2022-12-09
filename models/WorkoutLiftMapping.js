@@ -17,11 +17,12 @@ const workoutLiftSchema = new mongoose.Schema({
     },
     sets: {
         type: Number,
-        required: [true, 'Workout/lift mapping must have a number of sets']
     },
     reps: {
         type: Number,
-        required: [true, 'Workout/lift mapping must have a number of reps']
+    },
+    time: {
+        type: Number,
     }
 })
 

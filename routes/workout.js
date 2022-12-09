@@ -67,13 +67,14 @@ router.delete(
 router.post(
   "/:id/lift",
   wrapAsync(async (req, res, next) => {
-    const { workoutId, liftId, name, sets, reps } = req.body;
+    const { workoutId, liftId, name, sets, reps, time } = req.body;
     const workoutLift = new WorkoutLift({
       workout: workoutId,
       lift: liftId,
       liftName: name,
       sets: sets,
       reps: reps,
+      time: time
     });
     const newWorkoutLift = await workoutLift.save();
     console.log(newWorkoutLift);
